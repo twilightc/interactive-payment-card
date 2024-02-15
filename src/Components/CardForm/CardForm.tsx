@@ -15,16 +15,18 @@ const CardForm = () => {
         <div>
           <label htmlFor="expiration-date">Expiration Date</label>
         </div>
-        <select name="expiration-month" id="expiration-month">
-          <option value="1">1st</option>
-          <option value="2">2nd</option>
-          <option value="3">3rd</option>
-        </select>
-        <select name="expiration-year" id="expiration-year">
-          <option value="">Jan</option>
-          <option value="">Feb</option>
-          <option value="">Mar</option>
-        </select>
+        <div className="flex gap-[3px]">
+          <select name="expiration-month" id="expiration-month">
+            <option value="1">1st</option>
+            <option value="2">2nd</option>
+            <option value="3">3rd</option>
+          </select>
+          <select name="expiration-year" id="expiration-year">
+            <option value="">Jan</option>
+            <option value="">Feb</option>
+            <option value="">Mar</option>
+          </select>
+        </div>
       </div>
       <div className="ml-[10px]">
         <label htmlFor="cvc">CVC</label>
