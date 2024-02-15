@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+import CardForm from './Components/CardForm/CardForm';
 
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -8,7 +9,7 @@ function App() {
 
   return (
     <>
-      <div className="w-[600px] h-[400px]" style={{ perspective: '800px' }}>
+      <div className="w-[400px] h-[200px]" style={{ perspective: '800px' }}>
         <div
           className={`relative w-full h-full card ${isCardFlipped}`}
           style={{ transformStyle: 'preserve-3d' }}
@@ -30,6 +31,8 @@ function App() {
           </div>
         </div>
       </div>
+      <div className="mt-[50px]"></div>
+      <CardForm></CardForm>
     </>
   );
 }
