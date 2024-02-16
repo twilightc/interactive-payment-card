@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import './Card.scss';
 
+// card bg
+// https://i.imgur.com/5XHCjPT.jpg
+// chip icon
+// https://i.imgur.com/7xhP2ZA.png
+// visa(bankname) icon
+// https://i.imgur.com/lokBLnp.png
+
 const Card = () => {
   const [isFlipped, setIsFlipped] = useState(false);
 
