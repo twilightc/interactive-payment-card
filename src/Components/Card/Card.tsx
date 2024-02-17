@@ -29,7 +29,7 @@ const Card = () => {
       >
         {/* flex flex-col justify-evenly */}
         <div className="card-front absolute w-full h-full" style={{ backfaceVisibility: 'hidden' }}>
-          <div className="card-front-background absolute w-full h-full  overflow-hidden rounded-[8px]">
+          <div className="card-front-background absolute w-full overflow-hidden rounded-[8px]">
             <img src="https://i.imgur.com/5XHCjPT.jpg" alt="card-background" />
           </div>
 
@@ -39,7 +39,7 @@ const Card = () => {
               <img src="https://i.imgur.com/lokBLnp.png" alt="visa_type" />
             </div>
 
-            <div className="text-white">{cardNumbers}</div>
+            <div className="text-white text-[2em]">{cardNumbers}</div>
 
             <div className="flex justify-between text-white">
               <div>
@@ -61,7 +61,7 @@ const Card = () => {
             backfaceVisibility: 'hidden'
           }}
         >
-          <div className="card-back-background absolute w-full h-full overflow-hidden rounded-[8px]">
+          <div className="card-back-background absolute w-full overflow-hidden rounded-[8px]">
             <img src="https://i.imgur.com/5XHCjPT.jpg" alt="card-background" />
           </div>
 
@@ -70,7 +70,7 @@ const Card = () => {
 
             <div className="px-[15px]">
               <div className="text-right text-white">CVV/CVC</div>
-              <input type="text" />
+              <div className="w-full h-[40px] rounded-[5px] bg-[#ffffff]">{''}</div>
             </div>
 
             <div className="flex h-[45px] px-[15px] mb-[20px]">

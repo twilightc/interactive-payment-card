@@ -15,6 +15,12 @@ input:focus {
   transition: transform 1s;
 }
 
+.card-back-background,
+.card-front-background {
+  backface-visibility: hidden;
+  box-shadow: 0 20px 60px 0 rgba(14, 42, 90, 0.55);
+}
+
 .card-flipped {
   transform: rotateY(180deg);
 }
