@@ -1,20 +1,31 @@
 import { useState } from 'react';
 import './Card.scss';
-
-// card bg
-// https://i.imgur.com/5XHCjPT.jpg
-// chip icon
-// https://i.imgur.com/7xhP2ZA.png
-// visa(bankname) icon
-// https://i.imgur.com/lokBLnp.png
+import { useAtom } from 'jotai';
+import {
+  cardCVVAtom,
+  cardExpireAtom,
+  cardHolderAtom,
+  cardNumbersAtom
+} from '../atoms/PaymentInfo.atom';
 
 const Card = () => {
+  const [cardNumbers] = useAtom(cardNumbersAtom);
+  const [cardHolder] = useAtom(cardHolderAtom);
+  const [cardExpire] = useAtom(cardExpireAtom);
+  const [cardCVV] = useAtom(cardCVVAtom);
+
   const [isFlipped, setIsFlipped] = useState(false);
 
   const isCardFlipped = isFlipped ? 'card-flipped' : '';
 
-  const cardNumbers = Array.from({ length: 19 }).map((_, index) => {
-    return [4, 9, 14].includes(index) ? <span>&nbsp;</span> : <span>#</span>;
+  const cardNumbersList = Array.from({ length: 19 }).map((_, index) => {
+    return [4, 9, 14].includes(index) ? (
+      <span key={`blank-${index}`}>&nbsp;</span>
+    ) : (
+      <span key={`cardNumberPos-${index}`}>
+        {index < cardNumbers.length ? cardNumbers[index] : '#'}
+      </span>
+    );
   });
 
   return (
@@ -39,16 +50,18 @@ const Card = () => {
               <img src="https://i.imgur.com/lokBLnp.png" alt="visa_type" />
             </div>
 
-            <div className="text-white text-[2em]">{cardNumbers}</div>
+            <div className="text-white text-[2em]">{cardNumbersList}</div>
 
             <div className="flex justify-between text-white">
               <div>
                 <div>Card Holder</div>
-                <span>A</span>
+                <span>{cardHolder || 'FULL NAME'}</span>
               </div>
               <div>
                 <div>Expires</div>
-                <span>MM/YY</span>
+                <span>
+                  {cardExpire.month || 'MM'}/{cardExpire.year || 'YY'}
+                </span>
               </div>
             </div>
           </div>
@@ -70,7 +83,9 @@ const Card = () => {
 
             <div className="px-[15px]">
               <div className="text-right text-white">CVV/CVC</div>
-              <div className="w-full h-[40px] rounded-[5px] bg-[#ffffff]">{''}</div>
+              <div className="w-full h-[40px] text-right pr-[15px] rounded-[5px] bg-[#ffffff] leading-[40px]">
+                {cardCVV}
+              </div>
             </div>
 
             <div className="flex h-[45px] px-[15px] mb-[20px]">
