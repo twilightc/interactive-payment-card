@@ -14,22 +14,22 @@ const CardForm = () => {
   const [cardCVV, setCardCVV] = useAtom(cardCVVAtom);
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rule = /^(\d{0,4}\s?){0,4}$/;
     const inputCardNumbers = e.target.value.replace(/\s/g, '');
 
-    let newCardNumbers = '';
-    // first, iterate input and put char to responding position
-    for (let index = 0; index < inputCardNumbers.length; index++) {
-      if ([3, 7, 11].includes(index)) {
-        newCardNumbers += ' ';
-      } else {
+    if (inputCardNumbers === '' || rule.test(inputCardNumbers)) {
+      let newCardNumbers = '';
+      // first, iterate input and put char to responding position
+      for (let index = 0; index < inputCardNumbers.length; index++) {
         newCardNumbers += inputCardNumbers[index];
+        if ([3, 7, 11].includes(index)) {
+          newCardNumbers += ' ';
+        }
       }
-    }
-    // second, erase unnecessary space for case like ( ,1234 ,1234  5678 )
-    newCardNumbers = newCardNumbers.trimEnd();
+      // second, erase unnecessary space for case (e.g. 1234 ,1234 5678 )
+      newCardNumbers = newCardNumbers.trimEnd();
 
-    if (newCardNumbers === '' || /^(\d{0,4}\s?){0,4}$/.test(newCardNumbers)) {
-      setCardNumber(inputCardNumbers);
+      setCardNumber(newCardNumbers);
     }
   };
 
