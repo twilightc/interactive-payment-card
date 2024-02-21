@@ -29,3 +29,37 @@ input:focus {
 .card-back * {
   z-index: 1;
 }
+
+.card-number-list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+
+  span {
+    width: 16px;
+  }
+}
+
+.card-number-transition-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.card-number-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0px);
+  transition-delay: 0.1s;
+}
+.card-number-transition-exit {
+  opacity: 1;
+}
+.card-number-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+}
+
+.card-number-transition-enter-active,
+.card-number-transition-exit-active {
+  transition: all 0.25s ease-in-out;
+}

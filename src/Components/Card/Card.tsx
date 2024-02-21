@@ -7,6 +7,7 @@ import {
   cardHolderAtom,
   cardNumbersAtom
 } from '../atoms/PaymentInfo.atom';
+import { SwitchTransition, CSSTransition } from 'react-transition-group';
 
 const Card = () => {
   const [cardNumbers] = useAtom(cardNumbersAtom);
@@ -20,17 +21,26 @@ const Card = () => {
 
   const cardNumbersList = Array.from({ length: 19 }).map((_, index) => {
     return [4, 9, 14].includes(index) ? (
-      <span key={`blank-${index}`}>&nbsp;</span>
+      <span className="!w-[30px]" key={`blank-${index}`}></span>
     ) : (
-      <span key={`cardNumberPos-${index}`}>
-        {index < cardNumbers.length ? cardNumbers[index] : '#'}
-      </span>
+      <SwitchTransition key={`cardNumberPos-${index}`}>
+        <CSSTransition
+          key={`fragment-${index < cardNumbers.length ? cardNumbers[index] : '#'}`}
+          addEndListener={(node, done) => {
+            node.addEventListener('transitionend', done, false);
+          }}
+          classNames="card-number-transition"
+        >
+          <span key={`cardNumberPos-${index}`}>
+            {index < cardNumbers.length ? cardNumbers[index] : '#'}
+          </span>
+        </CSSTransition>
+      </SwitchTransition>
     );
   });
 
   return (
     <div className="max-w-[400px] h-[260px] mx-auto" style={{ perspective: '800px' }}>
-      {/* sticky */}
       <div
         className={`card relative w-full h-full ${isCardFlipped}`}
         style={{ transformStyle: 'preserve-3d' }}
@@ -38,7 +48,6 @@ const Card = () => {
           setIsFlipped(!isFlipped);
         }}
       >
-        {/* flex flex-col justify-evenly */}
         <div className="card-front absolute w-full h-full" style={{ backfaceVisibility: 'hidden' }}>
           <div className="card-front-background absolute w-full overflow-hidden rounded-[8px]">
             <img src="https://i.imgur.com/5XHCjPT.jpg" alt="card-background" />
@@ -50,7 +59,9 @@ const Card = () => {
               <img src="https://i.imgur.com/lokBLnp.png" alt="visa_type" />
             </div>
 
-            <div className="text-white text-[2em]">{cardNumbersList}</div>
+            <div className="card-number-list px-[15px] py-[10px] text-white text-[26px]">
+              {cardNumbersList}
+            </div>
 
             <div className="flex justify-between text-white">
               <div>

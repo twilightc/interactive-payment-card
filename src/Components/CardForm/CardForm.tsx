@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import './CardForm.scss';
 import {
   cardCVVAtom,
@@ -10,8 +10,8 @@ import {
 const CardForm = () => {
   const [cardNumbers, setCardNumber] = useAtom(cardNumbersAtom);
   const [cardHolder, setCardHolder] = useAtom(cardHolderAtom);
-  const [cardExpire, setCardExpire] = useAtom(cardExpireAtom);
   const [cardCVV, setCardCVV] = useAtom(cardCVVAtom);
+  const setCardExpire = useSetAtom(cardExpireAtom);
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rule = /^(\d{0,4}\s?){0,4}$/;
@@ -59,7 +59,6 @@ const CardForm = () => {
             name="expiration-month"
             id="expiration-month"
             defaultValue={'Month'}
-            value={cardExpire.month}
             onChange={(e) => {
               setCardExpire((cardExpire) => ({
                 ...cardExpire,
@@ -75,7 +74,6 @@ const CardForm = () => {
             name="expiration-year"
             id="expiration-year"
             defaultValue={'Year'}
-            value={cardExpire.year}
             onChange={(e) => {
               setCardExpire((cardExpire) => ({
                 ...cardExpire,
