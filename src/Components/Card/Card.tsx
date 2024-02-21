@@ -21,7 +21,7 @@ const Card = () => {
 
   const cardNumbersList = Array.from({ length: 19 }).map((_, index) => {
     return [4, 9, 14].includes(index) ? (
-      <span className="!w-[30px]" key={`blank-${index}`}></span>
+      <span className="!w-[10px] md:!w-[30px]" key={`blank-${index}`}></span>
     ) : (
       <SwitchTransition key={`cardNumberPos-${index}`}>
         <CSSTransition
@@ -48,18 +48,21 @@ const Card = () => {
           setIsFlipped(!isFlipped);
         }}
       >
-        <div className="card-front absolute w-full h-full" style={{ backfaceVisibility: 'hidden' }}>
+        <div
+          className="card-front absolute w-full sm:h-full"
+          style={{ backfaceVisibility: 'hidden' }}
+        >
           <div className="card-front-background absolute w-full overflow-hidden rounded-[8px]">
             <img src="https://i.imgur.com/5XHCjPT.jpg" alt="card-background" />
           </div>
 
-          <div className="grid gap-y-[35px] h-full px-[15px] py-[20px]">
+          <div className="grid gap-y-[10px] sm:gap-y-[35px] h-[90%] sm:h-full px-[15px] py-[20px]">
             <div className="flex justify-between h-[45px]">
               <img src="https://i.imgur.com/7xhP2ZA.png" alt="chip" />
               <img src="https://i.imgur.com/lokBLnp.png" alt="visa_type" />
             </div>
 
-            <div className="card-number-list px-[15px] py-[10px] text-white text-[26px]">
+            <div className="card-number-list sm:px-[15px] py-[10px] text-white text-[26px]">
               {cardNumbersList}
             </div>
 
@@ -89,8 +92,8 @@ const Card = () => {
             <img src="https://i.imgur.com/5XHCjPT.jpg" alt="card-background" />
           </div>
 
-          <div className="grid gap-y-[15px] h-full">
-            <div className="w-full h-[40px] mt-[35px] bg-[#000000] rounded-[5px]"></div>
+          <div className="grid sm:gap-y-[15px] h-[80%] sm:h-full">
+            <div className="w-full h-[40px] mt-[15px] sm:mt-[35px] bg-[#000000] rounded-[5px]"></div>
 
             <div className="px-[15px]">
               <div className="text-right text-white">CVV/CVC</div>
@@ -99,7 +102,7 @@ const Card = () => {
               </div>
             </div>
 
-            <div className="flex h-[45px] px-[15px] mb-[20px]">
+            <div className="flex h-[45px] px-[15px] sm:mb-[20px]">
               <img src="https://i.imgur.com/lokBLnp.png" alt="visa_type" />
             </div>
           </div>
