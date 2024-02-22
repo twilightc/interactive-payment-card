@@ -10,4 +10,19 @@ const cardExpireAtom = atom({
 });
 const cardCVVAtom = atom('');
 
-export { cardNumbersAtom, cardHolderAtom, cardExpireAtom, cardCVVAtom };
+const focusTargetAtom = atom<'cardNumbers' | 'cardName' | 'expireDate' | 'cvvCode' | ''>('');
+
+const focusBoxCssAtom = atom({
+  width: '100%',
+  height: '100%',
+  transform: ''
+});
+
+export {
+  cardNumbersAtom,
+  cardHolderAtom,
+  cardExpireAtom,
+  cardCVVAtom,
+  focusTargetAtom,
+  focusBoxCssAtom
+};

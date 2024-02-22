@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import './Card.scss';
 import { useAtom } from 'jotai';
 import {
   cardCVVAtom,
   cardExpireAtom,
   cardHolderAtom,
-  cardNumbersAtom
+  cardNumbersAtom,
+  focusTargetAtom,
+  focusBoxCssAtom
 } from '../atoms/PaymentInfo.atom';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 
@@ -14,10 +16,66 @@ const Card = () => {
   const [cardHolder] = useAtom(cardHolderAtom);
   const [cardExpire] = useAtom(cardExpireAtom);
   const [cardCVV] = useAtom(cardCVVAtom);
+  const [focusTarget] = useAtom(focusTargetAtom);
+  const [focusBoxCss, setFocusBoxCss] = useAtom(focusBoxCssAtom);
+
+  const cardNumbersRef = useRef<HTMLDivElement>(null);
+  const cardNameRef = useRef<HTMLDivElement>(null);
+  const expireDateRef = useRef<HTMLDivElement>(null);
+  const cvvCodeRef = useRef<HTMLDivElement>(null);
 
   const [isFlipped, setIsFlipped] = useState(false);
 
   const isCardFlipped = isFlipped ? 'card-flipped' : '';
+
+  const handleFocusBoxPos = useCallback(
+    (target: '' | 'cardNumbers' | 'cardName' | 'expireDate' | 'cvvCode') => {
+      if (target === '') {
+        return;
+      }
+
+      let node: HTMLDivElement | null = null;
+      switch (target) {
+        case 'cardNumbers':
+          node = cardNumbersRef.current;
+          break;
+        case 'cardName':
+          node = cardNameRef.current;
+          break;
+        case 'expireDate':
+          node = expireDateRef.current;
+          break;
+        case 'cvvCode':
+          node = cvvCodeRef.current;
+          break;
+        default:
+          break;
+      }
+
+      console.log({
+        width: `${node?.offsetWidth ?? 0}px`,
+        height: `${node?.offsetHeight ?? 0}px`,
+        transform: `translate(${node?.offsetWidth}px, ${node?.offsetHeight}px)`
+      });
+
+      if (target === 'cvvCode') {
+        setIsFlipped(true);
+      } else {
+        setIsFlipped(false);
+      }
+
+      setFocusBoxCss({
+        width: `${node?.offsetWidth ?? 0}px`,
+        height: `${node?.offsetHeight ?? 0}px`,
+        transform: `translate(${node?.offsetLeft}px, ${node?.offsetTop}px)`
+      });
+    },
+    [setFocusBoxCss]
+  );
+
+  useEffect(() => {
+    handleFocusBoxPos(focusTarget);
+  }, [focusTarget, handleFocusBoxPos]);
 
   const cardNumbersList = Array.from({ length: 19 }).map((_, index) => {
     return [4, 9, 14].includes(index) ? (
@@ -41,17 +99,21 @@ const Card = () => {
 
   return (
     <div className="max-w-[400px] h-[260px] mx-auto" style={{ perspective: '800px' }}>
+      {/* onClick={() => {
+          setIsFlipped(!isFlipped);
+        }} */}
       <div
         className={`card relative w-full h-full ${isCardFlipped}`}
         style={{ transformStyle: 'preserve-3d' }}
-        onClick={() => {
-          setIsFlipped(!isFlipped);
-        }}
       >
         <div
           className="card-front absolute w-full sm:h-full"
           style={{ backfaceVisibility: 'hidden' }}
         >
+          <div
+            className={`focus-box ${focusTarget !== '' ? 'focus-box--active' : ''}`}
+            style={focusBoxCss}
+          ></div>
           <div className="card-front-background absolute w-full overflow-hidden rounded-[8px]">
             <img src="https://i.imgur.com/5XHCjPT.jpg" alt="card-background" />
           </div>
@@ -62,16 +124,19 @@ const Card = () => {
               <img src="https://i.imgur.com/lokBLnp.png" alt="visa_type" />
             </div>
 
-            <div className="card-number-list sm:px-[15px] py-[10px] text-white text-[26px]">
+            <div
+              ref={cardNumbersRef}
+              className="card-number-list sm:px-[15px] py-[10px] text-white text-[26px]"
+            >
               {cardNumbersList}
             </div>
 
             <div className="flex justify-between text-white">
-              <div>
+              <div ref={cardNameRef}>
                 <div>Card Holder</div>
                 <span>{cardHolder || 'FULL NAME'}</span>
               </div>
-              <div>
+              <div ref={expireDateRef}>
                 <div>Expires</div>
                 <span>
                   {cardExpire.month || 'MM'}/{cardExpire.year || 'YY'}
@@ -88,6 +153,10 @@ const Card = () => {
             backfaceVisibility: 'hidden'
           }}
         >
+          <div
+            className={`focus-box ${focusTarget !== '' ? 'focus-box--active' : ''}`}
+            style={focusBoxCss}
+          ></div>
           <div className="card-back-background absolute w-full overflow-hidden rounded-[8px]">
             <img src="https://i.imgur.com/5XHCjPT.jpg" alt="card-background" />
           </div>
@@ -95,7 +164,7 @@ const Card = () => {
           <div className="grid sm:gap-y-[15px] h-[80%] sm:h-full">
             <div className="w-full h-[40px] mt-[15px] sm:mt-[35px] bg-[#000000] rounded-[5px]"></div>
 
-            <div className="px-[15px]">
+            <div ref={cvvCodeRef} className="px-[15px]">
               <div className="text-right text-white">CVV/CVC</div>
               <div className="w-full h-[40px] text-right pr-[15px] rounded-[5px] bg-[#ffffff] leading-[40px]">
                 {cardCVV}
