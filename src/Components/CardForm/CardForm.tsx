@@ -41,7 +41,7 @@ const CardForm = () => {
     }
   };
 
-  const setFocusField = (key: string) => {
+  const handleSetFocusField = (key: string) => {
     if (key === '') {
       return;
     }
@@ -65,7 +65,7 @@ const CardForm = () => {
   };
 
   useEffect(() => {
-    setFocusField(focusTarget);
+    handleSetFocusField(focusTarget);
   }, [focusTarget]);
 
   return (

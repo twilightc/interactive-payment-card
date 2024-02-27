@@ -71,8 +71,8 @@ const Card = () => {
     handleFocusBoxPos(focusTarget);
   }, [focusTarget, handleFocusBoxPos]);
 
-  const cardNumbersList = Array.from({ length: 19 }).map((_, index) => {
-    return [4, 9, 14].includes(index) ? (
+  const cardNumbersList = Array.from({ length: 19 }).map((_, index) =>
+    [4, 9, 14].includes(index) ? (
       <span className="!w-[10px] md:!w-[30px]" key={`blank-${index}`}></span>
     ) : (
       <SwitchTransition key={`cardNumberPos-${index}`}>
@@ -88,8 +88,8 @@ const Card = () => {
           </span>
         </CSSTransition>
       </SwitchTransition>
-    );
-  });
+    )
+  );
 
   return (
     <div className="max-w-[400px] h-[260px] mx-auto" style={{ perspective: '800px' }}>
