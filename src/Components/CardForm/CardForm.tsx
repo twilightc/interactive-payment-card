@@ -17,11 +17,8 @@ const CardForm = () => {
   const setCardExpire = useSetAtom(cardExpireAtom);
 
   const cardNumberRef = useRef<HTMLInputElement>(null);
-
   const cardNameRef = useRef<HTMLInputElement>(null);
-
   const expireDateRef = useRef<HTMLSelectElement>(null);
-
   const cvvRef = useRef<HTMLInputElement>(null);
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,8 +42,6 @@ const CardForm = () => {
   };
 
   const setFocusField = (key: string) => {
-    console.log(key);
-
     if (key === '') {
       return;
     }
@@ -81,9 +76,7 @@ const CardForm = () => {
           type="text"
           id="card-number"
           value={cardNumbers}
-          onFocus={() => {
-            setFocusTarget('cardNumbers');
-          }}
+          onFocus={() => setFocusTarget('cardNumbers')}
           onChange={(e) => {
             handleCardNumberChange(e);
           }}
@@ -97,9 +90,7 @@ const CardForm = () => {
           type="text"
           id="card-name"
           value={cardHolder}
-          onFocus={() => {
-            setFocusTarget('cardName');
-          }}
+          onFocus={() => setFocusTarget('cardName')}
           onChange={(e) => {
             setCardHolder(e.target.value);
           }}
@@ -115,9 +106,7 @@ const CardForm = () => {
             name="expiration-month"
             id="expiration-month"
             defaultValue={'Month'}
-            onFocus={() => {
-              setFocusTarget('expireDate');
-            }}
+            onFocus={() => setFocusTarget('expireDate')}
             onChange={(e) => {
               setCardExpire((cardExpire) => ({
                 ...cardExpire,
@@ -134,9 +123,7 @@ const CardForm = () => {
             name="expiration-year"
             id="expiration-year"
             defaultValue={'Year'}
-            onFocus={() => {
-              setFocusTarget('expireDate');
-            }}
+            onFocus={() => setFocusTarget('expireDate')}
             onChange={(e) => {
               setCardExpire((cardExpire) => ({
                 ...cardExpire,
@@ -157,9 +144,7 @@ const CardForm = () => {
           type="text"
           id="cvvAKAcvc"
           value={cardCVV}
-          onFocus={() => {
-            setFocusTarget('cvvCode');
-          }}
+          onFocus={() => setFocusTarget('cvvCode')}
           onChange={(e) => {
             setCardCVV(e.target.value);
           }}

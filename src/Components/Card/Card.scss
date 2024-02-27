@@ -72,7 +72,8 @@ input:focus {
   height: 100%;
   opacity: 0;
   border: 2px solid rgba(255, 255, 255, 0.65);
-  z-index: 3;
+  z-index: 2;
+  cursor: pointer;
 
   &--active {
     opacity: 1;

@@ -16,7 +16,7 @@ const Card = () => {
   const [cardHolder] = useAtom(cardHolderAtom);
   const [cardExpire] = useAtom(cardExpireAtom);
   const [cardCVV] = useAtom(cardCVVAtom);
-  const [focusTarget] = useAtom(focusTargetAtom);
+  const [focusTarget, setFocusTarget] = useAtom(focusTargetAtom);
   const [focusBoxCss, setFocusBoxCss] = useAtom(focusBoxCssAtom);
 
   const cardNumbersRef = useRef<HTMLDivElement>(null);
@@ -51,12 +51,6 @@ const Card = () => {
         default:
           break;
       }
-
-      console.log({
-        width: `${node?.offsetWidth ?? 0}px`,
-        height: `${node?.offsetHeight ?? 0}px`,
-        transform: `translate(${node?.offsetWidth}px, ${node?.offsetHeight}px)`
-      });
 
       if (target === 'cvvCode') {
         setIsFlipped(true);
@@ -99,9 +93,6 @@ const Card = () => {
 
   return (
     <div className="max-w-[400px] h-[260px] mx-auto" style={{ perspective: '800px' }}>
-      {/* onClick={() => {
-          setIsFlipped(!isFlipped);
-        }} */}
       <div
         className={`card relative w-full h-full ${isCardFlipped}`}
         style={{ transformStyle: 'preserve-3d' }}
@@ -126,17 +117,18 @@ const Card = () => {
 
             <div
               ref={cardNumbersRef}
-              className="card-number-list sm:px-[15px] py-[10px] text-white text-[26px]"
+              className="card-number-list sm:px-[15px] py-[10px] text-white text-[26px] cursor-pointer"
+              onClick={() => setFocusTarget('cardNumbers')}
             >
               {cardNumbersList}
             </div>
 
-            <div className="flex justify-between text-white">
-              <div ref={cardNameRef}>
+            <div className="flex justify-between text-white cursor-pointer">
+              <div ref={cardNameRef} onClick={() => setFocusTarget('cardName')}>
                 <div>Card Holder</div>
                 <span>{cardHolder || 'FULL NAME'}</span>
               </div>
-              <div ref={expireDateRef}>
+              <div ref={expireDateRef} onClick={() => setFocusTarget('expireDate')}>
                 <div>Expires</div>
                 <span>
                   {cardExpire.month || 'MM'}/{cardExpire.year || 'YY'}
@@ -164,7 +156,11 @@ const Card = () => {
           <div className="grid sm:gap-y-[15px] h-[80%] sm:h-full">
             <div className="w-full h-[40px] mt-[15px] sm:mt-[35px] bg-[#000000] rounded-[5px]"></div>
 
-            <div ref={cvvCodeRef} className="px-[15px]">
+            <div
+              ref={cvvCodeRef}
+              className="px-[15px] cursor-pointer"
+              onClick={() => setFocusTarget('cvvCode')}
+            >
               <div className="text-right text-white">CVV/CVC</div>
               <div className="w-full h-[40px] text-right pr-[15px] rounded-[5px] bg-[#ffffff] leading-[40px]">
                 {cardCVV}
