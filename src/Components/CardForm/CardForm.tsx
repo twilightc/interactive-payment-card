@@ -18,7 +18,8 @@ const CardForm = () => {
 
   const cardNumberRef = useRef<HTMLInputElement>(null);
   const cardNameRef = useRef<HTMLInputElement>(null);
-  const expireDateRef = useRef<HTMLSelectElement>(null);
+  const expireMonthRef = useRef<HTMLSelectElement>(null);
+  const expireYearRef = useRef<HTMLSelectElement>(null);
   const cvvRef = useRef<HTMLInputElement>(null);
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +42,9 @@ const CardForm = () => {
     }
   };
 
-  const handleSetFocusField = (key: string) => {
+  const handleSetFocusField = (
+    key: '' | 'cardNumbers' | 'cardName' | 'expireYear' | 'expireMonth' | 'cvvCode'
+  ) => {
     if (key === '') {
       return;
     }
@@ -53,8 +56,11 @@ const CardForm = () => {
       case 'cardName':
         cardNameRef.current?.focus();
         break;
-      case 'expireDate':
-        expireDateRef.current?.focus();
+      case 'expireMonth':
+        expireMonthRef.current?.focus();
+        break;
+      case 'expireYear':
+        expireYearRef.current?.focus();
         break;
       case 'cvvCode':
         cvvRef.current?.focus();
@@ -106,14 +112,14 @@ const CardForm = () => {
             name="expiration-month"
             id="expiration-month"
             defaultValue={'Month'}
-            onFocus={() => setFocusTarget('expireDate')}
+            onFocus={() => setFocusTarget('expireMonth')}
             onChange={(e) => {
               setCardExpire((cardExpire) => ({
                 ...cardExpire,
                 month: e.target.value
               }));
             }}
-            ref={expireDateRef}
+            ref={expireMonthRef}
           >
             <option value="1">Jan</option>
             <option value="2">Feb</option>
@@ -123,14 +129,14 @@ const CardForm = () => {
             name="expiration-year"
             id="expiration-year"
             defaultValue={'Year'}
-            onFocus={() => setFocusTarget('expireDate')}
+            onFocus={() => setFocusTarget('expireYear')}
             onChange={(e) => {
               setCardExpire((cardExpire) => ({
                 ...cardExpire,
                 year: e.target.value
               }));
             }}
-            ref={expireDateRef}
+            ref={expireYearRef}
           >
             <option value="2024">2020</option>
             <option value="2025">2025</option>

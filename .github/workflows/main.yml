@@ -1,3 +1,5 @@
+# if cannot setting yaml normally, check the following link:
+# https://stackoverflow.com/questions/76937061/branch-master-is-not-allowed-to-deploy-to-github-pages-due-to-environment-prot
 name: Deploy static content to Pages
 
 on:

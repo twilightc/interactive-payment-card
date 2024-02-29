@@ -29,7 +29,7 @@ const Card = () => {
   const isCardFlipped = isFlipped ? 'card-flipped' : '';
 
   const handleFocusBoxPos = useCallback(
-    (target: '' | 'cardNumbers' | 'cardName' | 'expireDate' | 'cvvCode') => {
+    (target: '' | 'cardNumbers' | 'cardName' | 'expireYear' | 'expireMonth' | 'cvvCode') => {
       if (target === '') {
         return;
       }
@@ -42,7 +42,10 @@ const Card = () => {
         case 'cardName':
           node = cardNameRef.current;
           break;
-        case 'expireDate':
+        case 'expireYear':
+          node = expireDateRef.current;
+          break;
+        case 'expireMonth':
           node = expireDateRef.current;
           break;
         case 'cvvCode':
@@ -124,11 +127,15 @@ const Card = () => {
             </div>
 
             <div className="flex justify-between text-white cursor-pointer">
-              <div ref={cardNameRef} onClick={() => setFocusTarget('cardName')}>
+              <div ref={cardNameRef} onClick={() => setFocusTarget('cardName')} className="p-[5px]">
                 <div>Card Holder</div>
                 <span>{cardHolder || 'FULL NAME'}</span>
               </div>
-              <div ref={expireDateRef} onClick={() => setFocusTarget('expireDate')}>
+              <div
+                ref={expireDateRef}
+                onClick={() => setFocusTarget('expireMonth')}
+                className="p-[5px]"
+              >
                 <div>Expires</div>
                 <span>
                   {cardExpire.month || 'MM'}/{cardExpire.year || 'YY'}
@@ -158,7 +165,7 @@ const Card = () => {
 
             <div
               ref={cvvCodeRef}
-              className="px-[15px] cursor-pointer"
+              className="mx-[5px] px-[10px] cursor-pointer"
               onClick={() => setFocusTarget('cvvCode')}
             >
               <div className="text-right text-white">CVV/CVC</div>
