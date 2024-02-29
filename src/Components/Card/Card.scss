@@ -74,9 +74,9 @@ input:focus {
   border: 2px solid rgba(255, 255, 255, 0.65);
   z-index: 2;
   cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.71, 0.03, 0.56, 0.85);
 
   &--active {
     opacity: 1;
-    transition: all 0.35s cubic-bezier(0.71, 0.03, 0.56, 0.85);
   }
 }

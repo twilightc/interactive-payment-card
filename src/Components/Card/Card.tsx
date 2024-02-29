@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import './Card.scss';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import {
   cardCVVAtom,
   cardExpireAtom,
   cardHolderAtom,
   cardNumbersAtom,
   focusTargetAtom,
-  focusBoxCssAtom
+  focusBoxCssAtom,
+  isFocusingAtom
 } from '../atoms/PaymentInfo.atom';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 
@@ -18,6 +19,7 @@ const Card = () => {
   const [cardCVV] = useAtom(cardCVVAtom);
   const [focusTarget, setFocusTarget] = useAtom(focusTargetAtom);
   const [focusBoxCss, setFocusBoxCss] = useAtom(focusBoxCssAtom);
+  const setIsFocusing = useSetAtom(isFocusingAtom);
 
   const cardNumbersRef = useRef<HTMLDivElement>(null);
   const cardNameRef = useRef<HTMLDivElement>(null);
@@ -120,20 +122,33 @@ const Card = () => {
 
             <div
               ref={cardNumbersRef}
-              className="card-number-list sm:px-[15px] py-[10px] text-white text-[26px] cursor-pointer"
-              onClick={() => setFocusTarget('cardNumbers')}
+              className="card-number-list z-[3] sm:px-[15px] py-[10px] text-white text-[26px] cursor-pointer"
+              onClick={() => {
+                setFocusTarget('cardNumbers');
+                setIsFocusing(true);
+              }}
             >
               {cardNumbersList}
             </div>
 
-            <div className="flex justify-between text-white cursor-pointer">
-              <div ref={cardNameRef} onClick={() => setFocusTarget('cardName')} className="p-[5px]">
+            <div className="flex justify-between z-[3] text-white cursor-pointer">
+              <div
+                ref={cardNameRef}
+                onClick={() => {
+                  setFocusTarget('cardName');
+                  setIsFocusing(true);
+                }}
+                className="p-[5px]"
+              >
                 <div>Card Holder</div>
                 <span>{cardHolder || 'FULL NAME'}</span>
               </div>
               <div
                 ref={expireDateRef}
-                onClick={() => setFocusTarget('expireMonth')}
+                onClick={() => {
+                  setFocusTarget('expireMonth');
+                  setIsFocusing(true);
+                }}
                 className="p-[5px]"
               >
                 <div>Expires</div>
@@ -165,8 +180,11 @@ const Card = () => {
 
             <div
               ref={cvvCodeRef}
-              className="mx-[5px] px-[10px] cursor-pointer"
-              onClick={() => setFocusTarget('cvvCode')}
+              className="z-[3] mx-[5px] px-[10px] cursor-pointer"
+              onClick={() => {
+                setFocusTarget('cvvCode');
+                setIsFocusing(true);
+              }}
             >
               <div className="text-right text-white">CVV/CVC</div>
               <div className="w-full h-[40px] text-right pr-[15px] rounded-[5px] bg-[#ffffff] leading-[40px]">

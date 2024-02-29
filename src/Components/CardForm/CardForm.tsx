@@ -5,7 +5,8 @@ import {
   cardExpireAtom,
   cardHolderAtom,
   cardNumbersAtom,
-  focusTargetAtom
+  focusTargetAtom,
+  isFocusingAtom
 } from '../atoms/PaymentInfo.atom';
 import { useEffect, useRef } from 'react';
 
@@ -14,7 +15,11 @@ const CardForm = () => {
   const [cardHolder, setCardHolder] = useAtom(cardHolderAtom);
   const [cardCVV, setCardCVV] = useAtom(cardCVVAtom);
   const [focusTarget, setFocusTarget] = useAtom(focusTargetAtom);
+  const [isFocusing, setIsFocusing] = useAtom(isFocusingAtom);
   const setCardExpire = useSetAtom(cardExpireAtom);
+
+  const isFocusingRef = useRef(isFocusing);
+  isFocusingRef.current = isFocusing;
 
   const cardNumberRef = useRef<HTMLInputElement>(null);
   const cardNameRef = useRef<HTMLInputElement>(null);
@@ -70,6 +75,16 @@ const CardForm = () => {
     }
   };
 
+  const handleBlur = () => {
+    setIsFocusing(false);
+
+    setTimeout(() => {
+      if (!isFocusingRef.current) {
+        setFocusTarget('');
+      }
+    }, 150);
+  };
+
   useEffect(() => {
     handleSetFocusField(focusTarget);
   }, [focusTarget]);
@@ -82,7 +97,11 @@ const CardForm = () => {
           type="text"
           id="card-number"
           value={cardNumbers}
-          onFocus={() => setFocusTarget('cardNumbers')}
+          onFocus={() => {
+            setFocusTarget('cardNumbers');
+            setIsFocusing(true);
+          }}
+          onBlur={() => handleBlur()}
           onChange={(e) => {
             handleCardNumberChange(e);
           }}
@@ -96,7 +115,11 @@ const CardForm = () => {
           type="text"
           id="card-name"
           value={cardHolder}
-          onFocus={() => setFocusTarget('cardName')}
+          onFocus={() => {
+            setFocusTarget('cardName');
+            setIsFocusing(true);
+          }}
+          onBlur={() => handleBlur()}
           onChange={(e) => {
             setCardHolder(e.target.value);
           }}
@@ -112,7 +135,11 @@ const CardForm = () => {
             name="expiration-month"
             id="expiration-month"
             defaultValue={'Month'}
-            onFocus={() => setFocusTarget('expireMonth')}
+            onFocus={() => {
+              setFocusTarget('expireMonth');
+              setIsFocusing(true);
+            }}
+            onBlur={() => handleBlur()}
             onChange={(e) => {
               setCardExpire((cardExpire) => ({
                 ...cardExpire,
@@ -129,7 +156,11 @@ const CardForm = () => {
             name="expiration-year"
             id="expiration-year"
             defaultValue={'Year'}
-            onFocus={() => setFocusTarget('expireYear')}
+            onFocus={() => {
+              setFocusTarget('expireYear');
+              setIsFocusing(true);
+            }}
+            onBlur={() => handleBlur()}
             onChange={(e) => {
               setCardExpire((cardExpire) => ({
                 ...cardExpire,
@@ -150,7 +181,11 @@ const CardForm = () => {
           type="text"
           id="cvvAKAcvc"
           value={cardCVV}
-          onFocus={() => setFocusTarget('cvvCode')}
+          onFocus={() => {
+            setFocusTarget('cvvCode');
+            setIsFocusing(true);
+          }}
+          onBlur={() => handleBlur()}
           onChange={(e) => {
             setCardCVV(e.target.value);
           }}
