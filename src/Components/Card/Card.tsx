@@ -175,12 +175,12 @@ const Card = () => {
             <img src="https://i.imgur.com/5XHCjPT.jpg" alt="card-background" />
           </div>
 
-          <div className="grid sm:gap-y-[15px] h-[80%] sm:h-full">
+          <div className="grid sm:gap-y-[15px] h-[90%] sm:h-full">
             <div className="w-full h-[40px] mt-[15px] sm:mt-[35px] bg-[#000000] rounded-[5px]"></div>
 
             <div
               ref={cvvCodeRef}
-              className="z-[3] mx-[5px] px-[10px] cursor-pointer"
+              className="z-[3] mx-[5px] px-[10px] sm:pb-[10px] cursor-pointer"
               onClick={() => {
                 setFocusTarget('cvvCode');
                 setIsFocusing(true);
@@ -192,7 +192,7 @@ const Card = () => {
               </div>
             </div>
 
-            <div className="flex h-[45px] px-[15px] sm:mb-[20px]">
+            <div className="flex h-[45px] px-[15px] mt-[10px] sm:my-[20px]">
               <img src="https://i.imgur.com/lokBLnp.png" alt="visa_type" />
             </div>
           </div>
